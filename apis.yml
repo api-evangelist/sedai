@@ -7,8 +7,8 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - FinOps
   - Cloud Optimization
+  - FinOps
 url: >-
   https://raw.githubusercontent.com/api-evangelist/sedai/refs/heads/main/apis.yml
 created: '2026-03-27'
@@ -22,8 +22,8 @@ apis:
       reinforcement learning to continuously adjust resources in real-time.
     humanURL: https://sedai.io/
     tags:
-      - FinOps
       - Cloud Optimization
+      - FinOps
     properties:
       - type: Documentation
         url: https://docs.sedai.io/
