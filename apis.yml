@@ -34,6 +34,18 @@ common:
     url: https://sedai.io/
   - type: Documentation
     url: https://docs.sedai.io/
+  - type: Integrations
+    url: https://sedai.io/integrations
+integrations:
+  - name: Sedai
+  - name: Supported Technologies
+  - name: Background
+  - name: 2026 GigaOm Radar Badge (Leader)
+  - name: AWS
+  - name: Azure
+  - name: FinOps Foundation
+  - name: SOC 2 Type 2 Badge
+  - name: Decorative footer bottom graphic saying Sedai
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
