@@ -30,6 +30,8 @@ apis:
       - type: GettingStarted
         url: https://docs.sedai.io/
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/sedai
   - type: Website
     url: https://sedai.io/
   - type: Documentation
