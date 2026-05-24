@@ -38,6 +38,8 @@ common:
     url: https://docs.sedai.io/
   - type: Integrations
     url: https://sedai.io/integrations
+  - type: LLMsTxt
+    url: https://sedai.io/llms.txt
 integrations:
   - name: Sedai
   - name: Supported Technologies
