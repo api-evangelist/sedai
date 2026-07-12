@@ -30,6 +30,8 @@ apis:
       - type: GettingStarted
         url: https://docs.sedai.io/
 common:
+  - type: DomainSecurity
+    url: security/sedai-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/sedai
   - type: Website
@@ -40,6 +42,8 @@ common:
     url: https://sedai.io/integrations
   - type: LlmsText
     url: https://sedai.io/llms.txt
+  - type: Blog
+    url: https://sedai.io/blog
 integrations:
   - name: Sedai
   - name: Supported Technologies
