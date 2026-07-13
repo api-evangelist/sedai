@@ -1,0 +1,21 @@
+{
+  "repo": "sedai",
+  "feeds": [
+    {
+      "source": "https://sedai.io/blog",
+      "feed_url": "https://sedai.io/blog",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
+      "source": "https://sedai.io/llms.txt",
+      "feed_url": "https://sedai.io/llms.txt",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "fetched": "2026-07-11T11:50:51Z",
+  "post_count": 13
+}
