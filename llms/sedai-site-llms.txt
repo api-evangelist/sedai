@@ -1,0 +1,36 @@
+# Sedai
+
+> Sedai is an autonomous cloud and AI optimization platform. It continuously analyzes application behavior and adjusts cloud configurations in real time to cut costs, improve performance, and increase availability — managing over $3 billion in cloud spend with zero production incidents.
+
+## Product
+
+- [Platform](https://sedai.io/platform): Autonomous optimization for cloud, Kubernetes, serverless, storage, and AI workloads.
+- [Integrations](https://sedai.io/integrations): Supported clouds, Kubernetes distributions, monitoring, and notification tools.
+- [Pricing](https://sedai.io/pricing): Volume-based pricing plans and how billing works
+
+## Solutions
+
+- [Cloud Cost Optimization](https://sedai.io/solution/cloud-cost-optimization): Reduce cloud spend autonomously.
+- [FinOps](https://sedai.io/solution/finops): Automate FinOps practices end to end.
+- [Cloud Reliability](https://sedai.io/solution/cloud-reliability): Improve availability and prevent incidents.
+- [Application Performance](https://sedai.io/solution/application-performance): Meet latency and SLO targets at the lowest cost.
+
+## Resources
+
+- [Blog](https://sedai.io/blog): Articles on cloud optimization, FinOps, and autonomous operations.
+- [Resources](https://sedai.io/resources): Guides, webinars, reports, and events.
+- [Customers](https://sedai.io/customers): Case studies and measured results.
+- [Documentation](https://docs.sedai.io/get-started): Product documentation and setup guides.
+
+## Company
+
+- [Company](https://sedai.io/company): About Sedai, mission, and team.
+- [Careers](https://sedai.io/careers): Open roles at Sedai.
+- [Contact](https://sedai.io/contact): Get in touch with the Sedai team.
+
+## Optional
+
+- [Book a Demo](https://sedai.io/demo): Request a live demo of the platform.
+- [Partners](https://sedai.io/partners): Sedai partner program.
+- [Privacy Policy](https://sedai.io/privacy-policy): How Sedai collects, uses, and protects data.
+- [Terms of Use](https://sedai.io/terms-of-use): Terms governing use of Sedai's website and services.

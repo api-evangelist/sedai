@@ -1,0 +1,70 @@
+# Sedai
+
+## Sedai
+
+- [Start Here](https://docs.sedai.io/get-started/onboarding/readme.md): Welcome to Sedai! We are excited to help your team start exploring opportunities with your cloud resources. Use this guide to get your team up and running quickly.
+- [About](https://docs.sedai.io/get-started/onboarding/readme/about.md): Learn more about autonomous cloud management and how to optimize for cost and performance.
+- [What to Expect](https://docs.sedai.io/get-started/onboarding/readme/what-to-expect.md): Learn more about what happens after you integrate your cloud & monitoring data.
+- [Setup Checklist](https://docs.sedai.io/get-started/onboarding/readme/setup-checklist.md): Let's get started! Keep this guide handy as you get set up for the first time in Sedai.
+- [Understanding Operation Modes](https://docs.sedai.io/get-started/onboarding/readme/understanding-operation-modes.md): Learn more about how Sedai safely utilizes permissions and manages your cloud resources.
+- [Safety & Security](https://docs.sedai.io/get-started/onboarding/readme/safety-and-security.md): Learn about how Sedai prioritizes the security and reliability of autonomous actions, protects customer data, and adheres to compliance standards.
+- [CI/CD](https://docs.sedai.io/get-started/onboarding/readme/ci-cd.md): Learn how Sedai works with CI/CD workflows to ensure changes to your codebase are regularly integrated, tested, and deployed.
+- [Autonomous Cloud Management](https://docs.sedai.io/get-started/onboarding/autonomous-cloud-management.md): Learn how Sedai's AI-driven cloud management solution ensures continuous optimization and autonomous operations for your cloud environment. Follow our step-by-step guide.
+- [Connect AWS account](https://docs.sedai.io/get-started/onboarding/autonomous-cloud-management/connect-aws-account.md): Connect your AWS account to Sedai's cloud management system by configuring IAM roles. Follow this detailed guide to set up secure access for autonomous operations.
+- [Connect Azure account](https://docs.sedai.io/get-started/onboarding/autonomous-cloud-management/connect-azure-account.md): Securely connect your Microsoft Azure account to Sedai's autonomous cloud platform.
+- [Connect GCP account](https://docs.sedai.io/get-started/onboarding/autonomous-cloud-management/connect-gcp-account.md): Connect your Google Cloud Platform account to Sedai to enable AI-driven, autonomous cloud management. Follow our guide for seamless configuration.
+- [Connect Kubernetes cluster](https://docs.sedai.io/get-started/onboarding/autonomous-cloud-management/connect-kubernetes-cluster.md): Learn how to connect your Kubernetes cluster with Sedai's autonomous cloud management platform. Achieve continuous optimization and automation for your workloads.
+- [Sedai Smart Agent](https://docs.sedai.io/get-started/onboarding/autonomous-cloud-management/connect-kubernetes-cluster/sedai-smart-agent.md): Connect Kubernetes to Sedai’s autonomous cloud management using the Sedai Smart Agent. Ensure seamless cloud operations with this integration guide.
+- [EKS Agentless Setup](https://docs.sedai.io/get-started/onboarding/autonomous-cloud-management/connect-kubernetes-cluster/eks-agentless-setup.md): Learn how to connect AWS Elastic Kubernetes Service clusters to Sedai without an agent.
+- [AKS Agentless Setup](https://docs.sedai.io/get-started/onboarding/autonomous-cloud-management/connect-kubernetes-cluster/aks-agentless-setup.md): Learn how to connect your Azure Kubernetes Service workloads to Sedai without an agent.
+- [GKE Agentless Setup](https://docs.sedai.io/get-started/onboarding/autonomous-cloud-management/connect-kubernetes-cluster/gke-agentless-setup.md): Learn how to connect your Google Kubernetes Engine workloads to Sedai without an agent.
+- [Node Optimisation Setup for AKS](https://docs.sedai.io/get-started/onboarding/autonomous-cloud-management/connect-kubernetes-cluster/node-optimization-setup.md): Learn how to add credentials for node optimization to Sedai.
+- [Connect Monitoring Data](https://docs.sedai.io/get-started/onboarding/autonomous-cloud-management/connect-monitoring-data.md): Learn how to connect monitoring data to Sedai's autonomous cloud management platform. Monitor, manage, and optimize your cloud infrastructure effortlessly.
+- [FinOps](https://docs.sedai.io/get-started/onboarding/augmented-finops.md): Connect your AWS or Azure billing accounts to explore your cloud expenses and view financial optimization opportunities.
+- [AWS FinOps Onboarding](https://docs.sedai.io/get-started/onboarding/augmented-finops/aws-finops-onboarding.md): Integrate your AWS Cost and Usage Reports into Sedai for FinOps
+- [Connect AWS Billing Account](https://docs.sedai.io/get-started/onboarding/augmented-finops/connect-aws-billing-account.md): Connect an AWS billing account to explore your cloud expenses and view financial optimization opportunities.
+- [Connect Azure Billing Account](https://docs.sedai.io/get-started/onboarding/augmented-finops/connect-azure-billing-account.md): Connect an Azure billing account to explore your cloud expenses and view financial optimization opportunities.
+- [Settings](https://docs.sedai.io/get-started/platform/settings.md): Learn how to configure Sedai’s features and control how your cloud resources are managed.
+- [Features](https://docs.sedai.io/get-started/platform/settings/features.md): Learn how to configure Sedai's features and customize settings at the account, cluster, group, and resource level.
+- [Optimization](https://docs.sedai.io/get-started/platform/settings/features/optimization.md): A comprehensive guide to configuring optimization features in Sedai’s platform. Improve cloud performance and reduce costs with automatic optimization settings.
+- [Availability](https://docs.sedai.io/get-started/platform/settings/features/availability.md): Learn how Sedai helps avoid downtime through proactive remediations.
+- [Tag Configuration](https://docs.sedai.io/get-started/platform/settings/features/tag-configuration.md): Learn how to apply settings via cloud provider tags.
+- [Groups](https://docs.sedai.io/get-started/platform/settings/groups.md): Sedai infers cloud provider tags so you can create custom resource groupings within the platform.
+- [Schedules](https://docs.sedai.io/get-started/platform/settings/schedules.md): Learn how to create schedules to freeze Sedai operations or scale down clusters.
+- [Optimization](https://docs.sedai.io/get-started/platform/optimization.md): Discover Sedai’s optimization features to maximize cloud efficiency. Learn how Sedai’s AI-driven platform ensures continuous optimization and cost management.
+- [AWS](https://docs.sedai.io/get-started/platform/optimization/aws.md)
+- [Lambda](https://docs.sedai.io/get-started/platform/optimization/aws/lambda.md): Learn how Sedai uniquely optimizes AWS serverless functions to achieve your performance and cost goals.
+- [ECS](https://docs.sedai.io/get-started/platform/optimization/aws/ecs.md): Learn how Sedai autonomously optimizes AWS ECS clusters and services for performance improvements and cost savings.
+- [EC2](https://docs.sedai.io/get-started/platform/optimization/aws/ec2.md): Learn how Sedai optimizes AWS EC2 instances to decrease cost.
+- [Storage](https://docs.sedai.io/get-started/platform/optimization/aws/storage.md): Learn how Sedai autonomously optimizes your AWS storage resources.
+- [Kubernetes](https://docs.sedai.io/get-started/platform/optimization/kubernetes.md): Learn how Sedai autonomously optimizes Kubernetes clusters and workloads to achieve your performance, cost, and availability goals.
+- [Azure](https://docs.sedai.io/get-started/platform/optimization/azure.md)
+- [Azure VMs](https://docs.sedai.io/get-started/platform/optimization/azure/azure-vms.md): Learn how Sedai optimizes Azure Virtual Machines (VMs) to decrease cost.
+- [GCP](https://docs.sedai.io/get-started/platform/optimization/gcp.md)
+- [Dataflow](https://docs.sedai.io/get-started/platform/optimization/gcp/dataflow.md): Learn how Sedai optimizes your GCP Dataflow resources to minimize costs.
+- [Release Intelligence](https://docs.sedai.io/get-started/platform/release-intelligence.md): Learn how to quickly validate production releases by understanding autonomously generated scorecards that grade release quality.
+- [Activity Hub](https://docs.sedai.io/get-started/platform/activity.md): Learn how to explore optimization and availability operations.
+- [Service Level Objectives](https://docs.sedai.io/get-started/platform/service-level-objectives.md): Learn how to easily view baseline performance targets for latency and error rate.
+- [Integrations](https://docs.sedai.io/get-started/platform/integrations.md): Learn how to connect IaC, notification, and ticketing integrations.
+- [Infrastructure as Code (IaC)](https://docs.sedai.io/get-started/platform/integrations/infrastructure-as-code-iac.md): Connect your preferred Infrastructure as Code (IaC) source to automatically sync configurations from Sedai.
+- [Resource to IaC File Mapping](https://docs.sedai.io/get-started/platform/integrations/infrastructure-as-code-iac/resource-to-iac-file-mapping.md)
+- [Notifications](https://docs.sedai.io/get-started/platform/integrations/notifications.md): Configure notifications in Sedai's platform for proactive monitoring and alerts. Stay informed with instant notifications for optimized cloud management.
+- [Ticketing & Service Management](https://docs.sedai.io/get-started/platform/integrations/ticketing-and-service-management.md): Integrate your ticketing and service management tools with Sedai. Streamline your cloud management workflow by connecting with your existing service platforms.
+- [Single Sign-On / RBAC](https://docs.sedai.io/get-started/platform/single-sign-on-rbac.md): Learn how to integrate your Identity Provider (IdP) using OIDC (OpenID Connect) or SAML (Security Assertion Markup Language).
+- [Technical FAQ](https://docs.sedai.io/get-started/help/technical-faq.md): Explore the following questions to learn more about how Sedai works with your cloud resources.
+
+
+---
+
+# Agent Instructions
+This documentation is published with GitBook. GitBook is the documentation platform designed so that both humans and AI agents can read, navigate, and reason over technical content effectively. Learn more at gitbook.com.
+
+## Querying This Documentation
+If you need additional information, you can query the documentation dynamically by asking a question.
+Perform an HTTP GET request on a page URL with the `ask` query parameter:
+```
+GET https://docs.sedai.io/get-started/onboarding/readme.md?ask=<question>
+```
+The question should be specific, self-contained, and written in natural language.
+The response will contain a direct answer to the question and relevant excerpts and sources from the documentation.
+Use this mechanism when the answer is not explicitly present in the current page, you need clarification or additional context, or you want to retrieve related documentation sections.

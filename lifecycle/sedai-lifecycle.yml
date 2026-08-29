@@ -1,0 +1,95 @@
+generated: '2026-08-29'
+method: searched
+source: >-
+  https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/CHANGELOG.md,
+  https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/CHANGELOG-typescript.md,
+  https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/REFERENCE-typescript.md
+  (deprecated configMode values, test-environment-only functions), and live
+  probes of https://status.sedai.io, https://sedai.statuspage.io,
+  https://sedai.io/changelog and https://docs.sedai.io/changelog.
+description: >-
+  Sedai versions its SDKs carefully and publishes dated changelogs for both, but
+  publishes no API version policy, no deprecation policy, no Sunset/Deprecation
+  headers, no SLA and no status page. The lifecycle signal that exists is
+  entirely client-side.
+versioning:
+  scheme: path-embedded, per-endpoint (no global version)
+  mechanism: null
+  header: null
+  evidence:
+    - /api/settingsV2/topology/* alongside unversioned /api/site/*
+    - /api/ui/recommendations/allrecommendationsv3
+    - /api/cluster/optimization/cost/v2/
+  docs: null
+  notes: >-
+    Different parts of the surface sit at different implicit versions and there
+    is no way for a caller to pin one. Because the endpoints themselves are not
+    publicly documented, a version bump would reach consumers only through an
+    SDK release.
+deprecation:
+  policy_url: null
+  changelog: https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/CHANGELOG.md
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  notes: >-
+    No published deprecation policy or notice period. Deprecations surface only
+    as notes in the SDK reference.
+deprecated:
+  - item: configMode value MANUAL
+    replacement: CO_PILOT
+    scope: Resource / group / account optimization settings
+    source: REFERENCE-typescript.md — Settings, configMode values table
+  - item: configMode value OFF
+    replacement: DATA_PILOT
+    scope: Resource / group / account optimization settings
+    source: REFERENCE-typescript.md — Settings, configMode values table
+  - item: Bundled npm examples inside the SDK package
+    replacement: examples/typescript/ in the sedai-sdk-releases repo
+    since: SDK (TypeScript) 1.2.2, 2026-08-28
+  - item: Example env vars RESOURCE_ID, PROVIDER_RESOURCE_IDS, EXECUTE_RESOURCE_ID
+    replacement: SEDAI_RESOURCE_ID, SEDAI_PROVIDER_RESOURCE_IDS, SEDAI_EXECUTE_RESOURCE_ID
+    since: SDK (TypeScript) 1.2.2, 2026-08-28
+not_yet_in_production:
+  - item: Transaction-level bulk execution tracking
+    functions: [submitBulkExecutionRequest, getExecutionStatus, getExecutionItems]
+    status: >-
+      Sedai states these are live-verified against the TEST environment only and
+      the backing branch has not shipped to production. The documented
+      production path remains bulkExecuteWithCopilot + getRecommendations.
+    source: REFERENCE-typescript.md — Transaction-Level Bulk Execution Tracking
+runtime_expiry:
+  - item: Unapproved Datapilot recommendation
+    window: 4 hours from generation
+    behaviour: Automatically expires; status becomes EXPIRED.
+    docs: https://docs.sedai.io/get-started/platform/settings/features/availability
+sla:
+  url: null
+  public_uptime_target: null
+  notes: >-
+    No public SLA. Sedai's marketing claim is operational ("25 million
+    autonomous actions, zero production incidents"), not contractual.
+status_page:
+  url: null
+  probed:
+    - url: https://status.sedai.io/
+      status: '000 — DNS does not resolve'
+    - url: https://sedai.statuspage.io/
+      status: 200
+      real: false
+      note: >-
+        Resolves to Atlassian's Statuspage marketing site (<title>Real-Time
+        Incident Communication with Statuspage | Atlassian</title>), not a Sedai
+        status page. A soft-404 — recorded here so a later pass does not credit
+        it. No StatusPage pointer is emitted.
+product_changelog:
+  url: null
+  probed:
+    - url: https://sedai.io/changelog
+      status: 404
+    - url: https://docs.sedai.io/changelog
+      status: 404
+  note: The only dated changelogs Sedai publishes are for the two SDKs — see changelog/sedai-changelog.yml.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

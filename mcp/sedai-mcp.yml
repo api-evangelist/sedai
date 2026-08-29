@@ -1,0 +1,139 @@
+generated: '2026-08-29'
+method: derived
+status: candidate
+source: >-
+  No Sedai MCP server exists. Searched the docs corpus
+  (https://docs.sedai.io/llms-full.txt — zero occurrences of "MCP" or "Model
+  Context Protocol"), both llms.txt files, the SedaiEngineering GitHub
+  organization (17 repos, none MCP), npm, PyPI and the open web. The candidate
+  tool list below is DERIVED by API Evangelist from the REST paths and function
+  surface Sedai publishes in its own SDK reference
+  (https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/REFERENCE-typescript.md)
+  and ships in the compiled SDK. It is a proposal, not a Sedai product.
+description: >-
+  Sedai ships no MCP server, hosted or local. This is a notable gap for a
+  company whose own product line now includes "Sedai for AI Agent Optimization"
+  — it optimizes other people's agents but exposes no agent-callable surface of
+  its own. The candidate tools below map one-to-one onto documented SDK
+  functions and their backing /api/* paths, so a future server could be built
+  from them without inventing anything; the tenant-scoped base URL
+  (https://{tenant}.sedai.app) and the console-minted JWT would be the
+  configuration.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: api-key
+  verified: searched
+searched:
+  - target: https://docs.sedai.io/llms-full.txt
+    status: 200
+    result: no MCP mention in the full documentation corpus
+  - target: https://api.github.com/orgs/sedaiengineering/repos
+    status: 200
+    result: 17 repos, none an MCP server
+  - target: registry.npmjs.org
+    status: 404
+    result: no @sedai/* MCP package
+  - target: web search
+    result: no Sedai MCP server published
+candidate_tools:
+  - name: list_accounts
+    description: List the cloud accounts connected to the Sedai tenant.
+    sdk: getAllAccounts / getAllAccountsLite
+    rest: GET /api/site/accounts
+    read_only: true
+  - name: search_accounts
+    description: Find a cloud account by name, Sedai id, or cloud provider account id.
+    sdk: searchAccountsByName / searchAccountsById / searchAccountsByProviderAccountId
+    rest: GET /api/site/accounts/lite/by
+    read_only: true
+  - name: list_groups
+    description: List resource groups and their definitions.
+    sdk: getAllGroups / getGroup / getGroupById
+    rest: GET /api/sedaigroup/allGroupDefinitions/
+    read_only: true
+  - name: list_recommendations
+    description: >-
+      List optimization and availability recommendations, filtered by account,
+      resource, date range, type and status.
+    sdk: getRecommendations / getRecommendationsV3
+    rest: GET /api/ui/recommendations/allrecommendationsv3
+    read_only: true
+  - name: get_opportunities_for_resources
+    description: Bulk-fetch optimization opportunities and monthly cost impact for a list of cloud resource ids.
+    sdk: getOpportunitiesForResources / getOpportunityForResource
+    rest: POST /api/autonomousOpportunities/batch, /api/autonomousOpportunities/individualResource
+    read_only: true
+    note: Gated per tenant behind the BULK_OPPORTUNITIES_API_ENABLED feature flag.
+  - name: get_cluster_opportunities
+    description: Kubernetes cluster-level optimization opportunity and projected monthly savings.
+    sdk: getClusterOpportunities
+    rest: GET /api/cluster/optimization/cost/v2/
+    read_only: true
+  - name: list_resource_optimizations
+    description: Completed optimizations with pre/post hourly cost and resource deltas.
+    sdk: getResourceOptimizations
+    rest: GET /api/cumulative/report/optimizations/details
+    read_only: true
+  - name: get_recommended_resource_state
+    description: The configuration Sedai would apply to a resource, without applying it — a dry-run read.
+    sdk: getRecommendedResourceState
+    rest: GET /api/site/sedaisync/proposedconfig
+    read_only: true
+  - name: list_in_progress_executions
+    description: Resources whose optimization is currently executing, with operation uuid and status.
+    sdk: getInProgressExecutions
+    rest: GET /api/ui/recommendations/inProgress
+    read_only: true
+  - name: resolve_cloud_provider_ids
+    description: Map Sedai resource ids back to native cloud identifiers.
+    sdk: getCloudProviderIds
+    rest: POST /api/settingsV2/topology/cloudProviderIds
+    read_only: true
+  - name: get_settings
+    description: Read optimization settings at resource, group or account level.
+    sdk: getResourceSettings / getGroupSettings / getAccountSettings
+    rest: GET /api/settingsV2/topology/configs/{resource|group|account}
+    read_only: true
+  - name: get_settings_history
+    description: Audit trail of settings changes with user and timestamp.
+    sdk: getResourceSettingsHistory / getGroupSettingsHistory / getAccountSettingsHistory
+    rest: GET /api/settingsV2/topology/logs/{resource|group|account}
+    read_only: true
+  - name: get_agent_health
+    description: Smart Agent health across all connected accounts.
+    sdk: getHealthInfo / getAgentMessageStats
+    rest: GET /api/health/agents, /api/agent/message/stats/
+    read_only: true
+  - name: execute_with_copilot
+    description: Execute a pending Co-pilot recommendation for a resource.
+    sdk: executeWithCopilot / approveExecution / rejectExecution / bulkExecuteWithCopilot
+    rest: POST /api/execute, POST /api/virtualMachines/optimization/manualexecution/approve
+    read_only: false
+    caution: >-
+      Mutates live cloud infrastructure. No idempotency key exists, and there is
+      no caller-triggered undo — see conventions/sedai-conventions.yml
+      reversibility. Any real server should gate this behind explicit human
+      confirmation.
+  - name: update_settings
+    description: Change optimization settings (configMode AUTO / CO_PILOT / DATA_PILOT) at resource, group or account level.
+    sdk: updateResourceSettings / updateGroupSettings / updateAccountSettings
+    rest: POST /api/settingsV2/topology/configs/{resource|group|account}
+    read_only: false
+    caution: >-
+      Requires an admin-role key. Sedai's own guidance is get-then-modify — a
+      partial write clobbers existing settings.
+notes:
+  - >-
+    A real Sedai MCP server would be per-tenant, since the base URL is the
+    customer's own https://{tenant}.sedai.app host. That makes local-stdio the
+    natural first shape and a hosted remote endpoint the harder one.
+  - >-
+    The read tools above cover the whole documented read surface and none of
+    them mutate anything, so a read-only server is buildable today from
+    published material.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

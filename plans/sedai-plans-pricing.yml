@@ -4,138 +4,61 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Sedai
 providerId: sedai
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+modified: '2026-08-29'
+generated: '2026-08-29'
+method: searched
+source: https://sedai.io/pricing
+sources:
+  - url: https://sedai.io/pricing
+    status: 200
+    checked: '2026-08-29'
+  - url: https://sedai.io/demo
+    status: 200
+    checked: '2026-08-29'
+  - url: llms/sedai-llms.txt
+    note: Sedai's own published LLM-facing brief, which names the billing unit.
 tags:
   - Cloud Optimization
   - FinOps
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
-plans:
-  - id: sedai-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the Sedai API surface. Intended for evaluation, prototyping, and
-      low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Sedai
-  - id: sedai-pro
-    name: Professional
-    type: paid
-    description: Production tier for Sedai. Provides higher quotas, priority support, and access to the
-      broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1000
-        price: TBD
-        userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Sedai
-  - id: sedai-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for Sedai. Includes dedicated capacity, contractual SLAs, security
-      review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Sedai
+plan_count: 0
+pricing_model: volume-based, custom quote
+description: >-
+  SEDAI PUBLISHES NO PLANS. There are no named tiers, no prices, no currency, no
+  billing period and no quotas anywhere on https://sedai.io/pricing — the page
+  carries an FAQ and a "Submit this form to get your custom quote" lead form,
+  nothing more. This file replaces a 2026-05-04 bulk-sweep scaffold that had
+  invented Free / Professional / Enterprise tiers with request quotas and rate
+  limits Sedai has never published; none of those figures were real and they
+  have been removed rather than carried forward.
+plans: []
+published_facts:
+  - fact: Volume-based pricing
+    detail: >-
+      "Our pricing model is based on your unique cloud environment and usage, so
+      that investing in Sedai is a no-brainer. Submit this form to get your
+      custom quote."
+    source: https://sedai.io/pricing
+  - fact: Billing unit
+    detail: >-
+      Sedai denominates pricing in Sedai Billing Units (SBUs), with no overage
+      penalties. Specific pricing is only available via sedai.io/demo.
+    source: llms/sedai-llms.txt
+  - fact: Free trial
+    detail: 30-day free trial with full access to the platform.
+    source: https://sedai.io/pricing
+  - fact: No self-serve purchase
+    detail: >-
+      No checkout, no card-on-file signup path, no published price list. Every
+      route to a price is a sales conversation. app.sedai.io/signup (HTTP 200)
+      leads to a tenant provisioning flow, not a priced plan.
+    source: https://sedai.io/pricing
+api_pricing:
+  metered: false
+  note: >-
+    The platform API is not separately priced or metered. It is included with
+    the platform and reached at the customer's own tenant host
+    (https://{tenant}.sedai.app); there is no API-only plan and no published
+    per-call charge.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

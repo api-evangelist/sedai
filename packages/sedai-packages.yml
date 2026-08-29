@@ -1,0 +1,99 @@
+generated: '2026-08-29'
+method: searched
+source: >-
+  https://github.com/SedaiEngineering/sedai-sdk-releases (README.md +
+  CHANGELOG.md + CHANGELOG-typescript.md), the published package archives in
+  that repo, https://registry.terraform.io/v1/providers/SedaiEngineering/sedai,
+  and https://sedaiengineering.github.io/helm-charts/index.yaml. Sedai's GitHub
+  organization is SedaiEngineering, not "sedai" — confirmed by the install URLs
+  printed in Sedai's own SDK README.
+description: >-
+  First-party Sedai client libraries and infrastructure packages. NOTHING SEDAI
+  SHIPS IS ON A PUBLIC LANGUAGE REGISTRY. Neither SDK is published to PyPI or
+  npm; both are installed directly from a GitHub raw URL that always serves the
+  latest build ("sedai_sdk-latest.tar.gz" / "sedai-sdk-typescript-latest.tgz"),
+  which Sedai's own README documents as a hazard — npm reports "up to date"
+  while silently keeping an older copy, and npm ci fails on an integrity
+  mismatch because the bytes behind a fixed URL change. A consumer therefore
+  cannot pin a version through the documented install path. Both SDKs are
+  licensed UNLICENSED / proprietary. The Terraform provider and the Helm chart
+  ARE properly versioned and registry-distributed.
+packages:
+  - language: python
+    registry: github-release
+    name: sedai-sdk
+    version: 1.3.20
+    published: '2026-07-07'
+    url: https://github.com/SedaiEngineering/sedai-sdk-releases/raw/main/sedai_sdk-latest.tar.gz
+    source: https://github.com/SedaiEngineering/sedai-sdk-releases
+    docs: https://sedaiengineering.github.io/sedai-sdk-python/
+    install: pip install https://github.com/SedaiEngineering/sedai-sdk-releases/raw/main/sedai_sdk-latest.tar.gz
+    official: true
+    license: UNLICENSED (proprietary)
+    note: >-
+      Not on PyPI — https://pypi.org/pypi/sedai-sdk/json returns 404, as do
+      "sedai" and "sedai-sdk-python". Version read from PKG-INFO inside the
+      published tarball (Name: sedai-sdk, Version: 1.3.20); published date is
+      the 1.3.20 entry in CHANGELOG.md. The install URL is unpinned and floats
+      to latest, so a consumer cannot tell which build they received.
+  - language: typescript
+    registry: github-release
+    name: sedai-sdk
+    version: 1.2.4
+    published: '2026-08-28'
+    url: https://github.com/SedaiEngineering/sedai-sdk-releases/raw/main/sedai-sdk-typescript-latest.tgz
+    source: https://github.com/SedaiEngineering/sedai-sdk-typescript
+    docs: https://sedaiengineering.github.io/sedai-sdk-typescript/
+    reference: https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/REFERENCE-typescript.md
+    install: npm install https://github.com/SedaiEngineering/sedai-sdk-releases/raw/main/sedai-sdk-typescript-latest.tgz
+    official: true
+    license: UNLICENSED (proprietary)
+    note: >-
+      Not on npm — registry.npmjs.org/sedai-sdk and /@sedai/sdk both 404, and
+      the unrelated npm package "sedai" belongs to thruthesky/sedai.dev, a
+      different project. package.json inside the tarball declares
+      "private": true and version 1.2.4; published date is the 1.2.4 entry in
+      CHANGELOG-typescript.md. Mirrors the Python SDK method for method.
+      Depends on axios ^1.7.0; requires Node >= 16.
+  - language: hcl
+    registry: terraform
+    name: SedaiEngineering/sedai
+    version: 2.0.0
+    published: '2026-07-03'
+    url: https://registry.terraform.io/providers/SedaiEngineering/sedai/latest
+    source: https://github.com/SedaiEngineering/terraform-provider-sedai
+    install: 'terraform { required_providers { sedai = { source = "SedaiEngineering/sedai" } } }'
+    official: true
+    note: >-
+      Community-tier Terraform provider, 2,615 downloads at fetch time, 11
+      published versions from 0.0.1 to 2.0.0. Version and date read from
+      https://registry.terraform.io/v1/providers/SedaiEngineering/sedai. Ships
+      data sources and resources for accounts, account settings and groups —
+      the same surface the SDKs cover.
+  - language: helm
+    registry: helm
+    name: sedai-smart-agent
+    version: 1.4.75
+    published: '2026-08-27'
+    url: https://sedaiengineering.github.io/helm-charts
+    source: https://github.com/SedaiEngineering/helm-charts
+    install: helm repo add sedai https://sedaiengineering.github.io/helm-charts && helm install sedai-smart-agent sedai/sedai-smart-agent
+    official: true
+    note: >-
+      The Sedai Smart Agent, deployed into a customer Kubernetes cluster for
+      agent-based integration. 141 chart versions in the index; 1.4.75 is the
+      newest non-prerelease (a 1.4.66-beta.6 was cut 2026-08-28). Version, date
+      and appVersion read from
+      https://sedaiengineering.github.io/helm-charts/index.yaml.
+absent_registries:
+  - registry: pypi
+    checked: '2026-08-29'
+    result: 404 for sedai, sedai-sdk, sedai-sdk-python
+  - registry: npm
+    checked: '2026-08-29'
+    result: >-
+      404 for sedai-sdk and @sedai/sdk; "sedai" (200) is an unrelated
+      third-party package (thruthesky/sedai, homepage sedai.dev)
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

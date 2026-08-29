@@ -1,9 +1,17 @@
 aid: sedai
 name: Sedai
 description: >-
-  Sedai is an AI-driven autonomous cloud optimization platform using
-  reinforcement learning to continuously adjust resources in real-time for
-  cost reduction and performance improvement.
+  Sedai is an autonomous cloud and AI optimization platform. It continuously
+  analyzes application behavior — traffic, resource utilization, latency and
+  errors — and then adjusts cloud configuration in real time to cut cost,
+  improve performance and protect availability, across Kubernetes, VMs,
+  serverless, storage, databases, GPUs and AI agent workloads on AWS, Azure and
+  GCP. It operates in three modes: Datapilot (observe only), Copilot (human
+  approves each change) and Autopilot (fully autonomous). Sedai exposes a
+  tenant-scoped platform API at https://{tenant}.sedai.app reached through
+  first-party Python and TypeScript SDKs, a Terraform provider and a Helm chart
+  for its in-cluster Smart Agent, but publishes no OpenAPI and no public API
+  reference on its documentation site.
 type: Index
 deliveryModel:
   model: unknown
@@ -32,10 +40,16 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/sedai.png
 tags:
   - Cloud Optimization
   - FinOps
+  - Kubernetes
+  - Cloud Cost Management
+  - Autonomous Operations
+  - Observability
+  - Artificial Intelligence
+  - DevOps
 url: >-
   https://raw.githubusercontent.com/api-evangelist/sedai/refs/heads/main/apis.yml
 created: '2026-03-27'
-modified: '2026-03-27'
+modified: '2026-08-29'
 specificationVersion: '0.23'
 apis:
   - aid: sedai:sedai
@@ -44,14 +58,36 @@ apis:
       Sedai is an AI-driven autonomous cloud optimization platform using
       reinforcement learning to continuously adjust resources in real-time.
     humanURL: https://sedai.io/
+    baseURL: https://{tenant}.sedai.app
     tags:
       - Cloud Optimization
       - FinOps
+      - Kubernetes
+      - Cloud Cost Management
+      - Autonomous Operations
     properties:
       - type: Documentation
         url: https://docs.sedai.io/
       - type: GettingStarted
-        url: https://docs.sedai.io/
+        url: https://docs.sedai.io/get-started
+      - type: APIReference
+        url: https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/REFERENCE-typescript.md
+      - type: SDKs
+        url: packages/sedai-packages.yml
+      - type: Authentication
+        url: authentication/sedai-authentication.yml
+      - type: Conventions
+        url: conventions/sedai-conventions.yml
+      - type: ErrorCatalog
+        url: errors/sedai-problem-types.yml
+      - type: RateLimits
+        url: rate-limits/sedai-rate-limits.yml
+      - type: Lifecycle
+        url: lifecycle/sedai-lifecycle.yml
+      - type: ChangeLog
+        url: changelog/sedai-changelog.yml
+      - type: Webhooks
+        url: asyncapi/sedai-webhooks.yml
 common:
   - type: DomainSecurity
     url: security/sedai-domain-security.yml
@@ -67,6 +103,32 @@ common:
     url: https://sedai.io/llms.txt
   - type: Blog
     url: https://sedai.io/blog
+  - type: Packages
+    url: packages/sedai-packages.yml
+  - type: SDKs
+    url: packages/sedai-packages.yml
+  - type: Conformance
+    url: conformance/sedai-conformance.yml
+  - type: Compliance
+    url: conformance/sedai-conformance.yml
+  - type: LLMsTxt
+    url: llms/sedai-llms.txt
+  - type: GitHubOrganization
+    url: https://github.com/SedaiEngineering
+  - type: Pricing
+    url: https://sedai.io/pricing
+  - type: SignUp
+    url: https://app.sedai.io/signup
+  - type: TermsOfService
+    url: https://sedai.io/terms-of-use
+  - type: PrivacyPolicy
+    url: https://sedai.io/privacy-policy
+  - type: Support
+    url: https://sedai.io/contact
+  - type: Twitter
+    url: https://x.com/sedai_io
+  - type: YouTube
+    url: https://www.youtube.com/@sedaicloud
 integrations:
   - name: Sedai
   - name: Supported Technologies
@@ -80,3 +142,8 @@ integrations:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-29'
+  status: enriched
+  artifacts_added: 12
+  pass: local-v1

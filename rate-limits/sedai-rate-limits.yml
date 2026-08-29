@@ -4,86 +4,66 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Sedai
 providerId: sedai
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+modified: '2026-08-29'
+generated: '2026-08-29'
+method: searched
+source: >-
+  https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/REFERENCE-typescript.md
+  (the "Common HTTP errors" table and the configure() retries option) —
+  the only public statement Sedai makes about throttling.
+sources:
+  - url: https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/REFERENCE-typescript.md
+    status: 200
+    checked: '2026-08-29'
+  - url: https://sedai.io/pricing
+    status: 200
+    checked: '2026-08-29'
+    note: No limits published on the pricing page.
+  - url: https://docs.sedai.io/llms-full.txt
+    status: 200
+    checked: '2026-08-29'
+    note: Full docs corpus searched — no rate-limit section, no numeric limit, no header name.
 tags:
   - Cloud Optimization
   - FinOps
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Sedai API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
+limit_count: 0
+description: >-
+  SEDAI PUBLISHES NO NUMERIC RATE LIMITS. What Sedai does document is the
+  runtime behaviour on exhaustion: HTTP 429, which its SDKs retry automatically
+  up to 3 times with exponential backoff (alongside 503 and 504). No limit, no
+  window, no burst, no scope and no response header is stated anywhere public.
+  This file replaces a 2026-05-04 bulk-sweep scaffold that had invented
+  per-tier requests-per-minute and monthly quotas, and a full set of
+  X-RateLimit-* headers, none of which Sedai has ever published.
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  limit: null
+  remaining: null
+  reset: null
+  retryAfter: null
+  policy: null
+  note: >-
+    No rate-limit response header is documented. An agent has no runtime signal
+    of remaining budget — it can only observe the 429 after the fact.
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Sedai
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Sedai
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Sedai
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Sedai
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Sedai
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  transient: [503, 504]
+limits: []
+client_behaviour:
+  retries: 3
+  strategy: exponential backoff
+  configurable: true
+  mechanism: 'configure({ baseUrl, apiToken, retries })'
+  applies_to: [429, 503, 504]
+  caution: >-
+    Because Sedai documents no idempotency key, this automatic retry replays
+    write operations with no deduplication guarantee. See
+    conventions/sedai-conventions.yml.
+policies: []
+gaps:
+  - No published limit, window, burst or scope.
+  - No rate-limit response headers, and no Retry-After.
+  - No per-plan limits, because Sedai publishes no plans (plans/sedai-plans-pricing.yml).
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

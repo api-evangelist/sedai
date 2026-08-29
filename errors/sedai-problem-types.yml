@@ -1,0 +1,87 @@
+generated: '2026-08-29'
+method: searched
+format: undocumented
+source: >-
+  https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/REFERENCE-typescript.md#error-handling
+  (the "Common HTTP errors" table) and the Troubleshooting section of
+  https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/README.md.
+description: >-
+  Sedai publishes no OpenAPI and no error reference, so there is no per-operation
+  4xx/5xx catalog to derive from. What Sedai DOES publish is a four-row HTTP
+  status table in its SDK reference, plus a diagnostic walkthrough for 401. That
+  is the whole public error contract, and it is recorded here verbatim in
+  structure. Sedai does not use RFC 9457 application/problem+json; the response
+  body shape is not documented at all — the SDK surfaces only the HTTP status
+  and an axios message string.
+envelope:
+  media_type: application/json
+  rfc9457: false
+  shape: undocumented
+  sdk_surface: >-
+    All HTTP-level failures (4xx/5xx, after retries are exhausted) throw
+    APIException. Pre-condition violations — missing required fields, invalid
+    enum values — throw a plain Error before any request is made.
+  example_message: 'GET /api/site/accounts failed: Request failed with status code 401'
+problems:
+  - status: 401
+    title: Unauthorized
+    meaning: Invalid, missing, or expired API token, or a token issued for a different tenant.
+    remediation: >-
+      Confirm SEDAI_API_TOKEN is set in the running environment; decode the JWT
+      exp claim to check expiry; confirm the key belongs to the tenant named in
+      SEDAI_BASE_URL. Re-generate at Settings -> API Keys -> Create New Key.
+    retryable: false
+  - status: 403
+    title: Forbidden
+    meaning: >-
+      The token is valid but lacks the role, or the tenant is missing a feature
+      flag. Write/update operations require an admin-role key; some read
+      endpoints are additionally gated per tenant.
+    remediation: >-
+      Use an admin-role key for writes. For getOpportunitiesForResources,
+      contact Sedai support to enable BULK_OPPORTUNITIES_API_ENABLED.
+    retryable: false
+  - status: 429
+    title: Too Many Requests
+    meaning: Rate limited. No published limit, window, or Retry-After header.
+    remediation: Backoff and retry — the SDK does this automatically up to 3 times with exponential backoff.
+    retryable: true
+  - status: 503
+    title: Service Unavailable
+    meaning: Transient server error.
+    remediation: Retried automatically by the SDK.
+    retryable: true
+  - status: 504
+    title: Gateway Timeout
+    meaning: Transient server error.
+    remediation: Retried automatically by the SDK.
+    retryable: true
+silent_failure_modes:
+  - name: Wrong pagination slice
+    description: >-
+      Passing a record offset as `start` (rather than a 1-based page number)
+      returns plausible data from the wrong part of the result set with NO
+      error. Fixed in the docs at SDK 1.2.3, not in the API.
+  - name: Unresolved id echoed back
+    description: >-
+      getCloudProviderIds returns unrecognised ids mapped to themselves instead
+      of omitting them, so a failed lookup produces a successful-looking result.
+  - name: Empty result from the wrong account
+    description: >-
+      Most accounts in a large tenant have nothing to optimize; defaulting to
+      accounts[0] returns an empty list that is indistinguishable from a broken
+      integration. Sedai calls this out in its own quickstart.
+  - name: Uninitialized group settings
+    description: >-
+      getGroupSettings throws if initializeGroupSettings(groupId) has never been
+      called for that group.
+  - name: Empty filter means no filter
+    description: >-
+      getInProgressExecutions([]) returns everything in the tenant, not nothing.
+gaps:
+  - No documented error body schema, error code vocabulary, or machine-readable error type.
+  - No 400 / 404 / 409 / 422 semantics published, though the API certainly returns some of them.
+  - No RFC 9457 problem+json.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

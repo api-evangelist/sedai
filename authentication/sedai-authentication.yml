@@ -1,0 +1,89 @@
+generated: '2026-08-29'
+method: searched
+source: >-
+  https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/REFERENCE-typescript.md
+  (Authentication section, API key roles, and the 401/403 troubleshooting
+  table), https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/README.md,
+  and https://docs.sedai.io/get-started/onboarding/readme/safety-and-security
+  (SAML / MFA / key management) plus
+  https://docs.sedai.io/get-started/platform/single-sign-on-rbac (OIDC + SAML SSO).
+description: >-
+  Sedai's platform API is authenticated with a long-lived API token minted in
+  the tenant console. There is no published OpenAPI, so this profile is read
+  from Sedai's own first-party SDK reference rather than derived from a
+  securityScheme block. The token is a JWT with an exp claim — Sedai documents
+  reading the expiry client-side by base64-decoding the payload — and it is
+  scoped to one tenant: a key from one Sedai instance returns 401 against
+  another.
+base_url_template: https://{tenant}.sedai.app
+summary:
+  types:
+    - apiKey
+  api_token: true
+  oauth2: false
+  openid_connect: consumer-side only (console SSO, not API auth)
+  mutual_tls: false
+schemes:
+  - name: sedaiApiToken
+    type: apiKey
+    in: header
+    format: JWT
+    issued_at: Settings -> API Keys -> Create New Key, inside the tenant console
+    shown_once: true
+    expires: true
+    expiry_discovery: >-
+      The token is a JWT; Sedai documents decoding the payload segment to read
+      the "exp" claim without calling the API
+      (echo "$SEDAI_API_TOKEN" | cut -d. -f2 | base64 -d | grep exp).
+    tenant_scoped: true
+    sdk_env_vars:
+      - SEDAI_BASE_URL
+      - SEDAI_API_TOKEN
+    description: >-
+      Bearer API token passed by the SDK on every request to the tenant's
+      https://{tenant}.sedai.app host. Sedai does not publish the raw header
+      name in its public docs; the SDK sets it internally via configure({
+      baseUrl, apiToken }).
+    source: REFERENCE-typescript.md#authentication
+roles:
+  - name: user
+    grants: All read operations — accounts, resources, recommendations, opportunities.
+  - name: admin
+    grants: >-
+      Required for every write/update operation (updateResourceSettings,
+      updateGroupSettings, updateAccountSettings). A write call made with a
+      user-role key returns 403.
+feature_flags:
+  - name: BULK_OPPORTUNITIES_API_ENABLED
+    description: >-
+      Off by default for all tenants. getOpportunitiesForResources returns 403
+      until Sedai support enables it. A per-tenant entitlement flag, not a
+      scope — it is not discoverable from the token.
+console_sso:
+  protocols:
+    - SAML 2.0
+    - OIDC
+  mfa: >-
+    Sedai offers AWS SSO password policies and MFA for SaaS customers; MFA is
+    mandatory on all internal systems handling customer data.
+  rbac: true
+  docs: https://docs.sedai.io/get-started/platform/single-sign-on-rbac
+  note: >-
+    SAML/OIDC govern human login to the Sedai console. They are NOT an
+    authorization mechanism for the platform API, which uses the console-minted
+    API token only. Sedai publishes no OAuth 2.0 authorization server and no
+    /.well-known/openid-configuration of its own.
+failure_modes:
+  - status: 401
+    meaning: Token missing, wrong, expired, or belonging to a different tenant.
+    remediation: Re-generate the key in Settings -> API Keys; check the JWT exp claim.
+  - status: 403
+    meaning: Valid token, insufficient role, or a tenant feature flag is off.
+    remediation: Use an admin-role key for writes; contact Sedai support for the feature flag.
+gaps:
+  - No published API key prefix or header name in the public documentation.
+  - No documented key rotation policy, key expiry period, or revocation endpoint.
+  - No OAuth 2.0 / OIDC option for machine access; no scopes, so least-privilege is limited to the two coarse roles.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,146 @@
+generated: '2026-08-29'
+method: searched
+source: >-
+  https://docs.sedai.io/get-started/onboarding/augmented-finops (FOCUS dataset
+  ingestion), https://docs.sedai.io/get-started/onboarding/augmented-finops/aws-finops-onboarding
+  (FOCUS 1.0 export selection), https://docs.sedai.io/get-started/platform/single-sign-on-rbac
+  (OIDC + SAML), https://docs.sedai.io/get-started/onboarding/readme/safety-and-security
+  (AES at rest, HTTPS in motion, HMAC message bus, SAML, MFA), https://sedai.io/
+  (SOC 2 Type 2 Certified badge), and the SDK reference at
+  https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/REFERENCE-typescript.md.
+description: >-
+  Standards conformance for Sedai. Every entry below is evidenced from Sedai's
+  own published pages. Because Sedai publishes no machine-readable contract,
+  none of these can be verified against a spec — they are documentation claims,
+  and the evidence field says so where that matters.
+standards:
+  - id: focus
+    name: FinOps Open Cost and Usage Specification (FOCUS)
+    domain_standard: true
+    conforms: true
+    role: consumer
+    version: '1.0'
+    evidence: >-
+      "Sedai supports the FinOps Foundation's FOCUS project... Sedai ingests
+      FOCUS-compliant datasets, enabling optimization features and allowing
+      FinOps practitioners to perform fundamental FinOps capabilities using a
+      common data schema."
+      (https://docs.sedai.io/get-started/onboarding/augmented-finops). The AWS
+      onboarding guide instructs customers to create a Data Export of type
+      "Standard data export" with the data table "FOCUS 1.0 with AWS columns"
+      (https://docs.sedai.io/get-started/onboarding/augmented-finops/aws-finops-onboarding).
+    caveat: >-
+      Sedai INGESTS FOCUS; it does not publish a FOCUS-shaped export of its own,
+      and there is no contract in which the conformance is declared. This is the
+      domain standard for the FinOps market and Sedai speaks it on the intake
+      side only.
+  - id: finops-framework
+    name: FinOps Foundation Framework
+    conforms: true
+    evidence: >-
+      "Sedai directly supports multiple FinOps Foundation domains"
+      (https://docs.sedai.io/get-started/onboarding/augmented-finops); Sedai is
+      listed as a FinOps Foundation member on https://sedai.io/.
+  - id: saml2
+    name: SAML 2.0
+    conforms: true
+    scope: console SSO
+    evidence: >-
+      "Learn how to integrate your Identity Provider (IdP) using OIDC (OpenID
+      Connect) or SAML" (https://docs.sedai.io/get-started/platform/single-sign-on-rbac);
+      "Sedai offers seamless SAML integration with identity providers, allowing
+      it to operate as a service provider"
+      (https://docs.sedai.io/get-started/onboarding/readme/safety-and-security).
+  - id: oidc
+    name: OpenID Connect
+    conforms: partial
+    scope: console SSO only
+    evidence: >-
+      OIDC is offered for identity-provider login to the Sedai console. Sedai
+      publishes NO /.well-known/openid-configuration on any of its own hosts —
+      sedai.io and docs.sedai.io return 404 and app.sedai.io returns a 200 HTML
+      SPA shell (well-known/sedai-well-known.yml). Sedai is an OIDC relying
+      party, not an OIDC provider.
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: false
+    evidence: >-
+      The platform API authenticates with a console-minted JWT API token. No
+      authorization server, no scopes, no token endpoint, no dynamic client
+      registration (authentication/sedai-authentication.yml).
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      No application/problem+json. The error body shape is not documented at all
+      (errors/sedai-problem-types.yml).
+  - id: idempotency
+    name: Idempotency keys
+    conforms: false
+    evidence: >-
+      No idempotency header, key or replay semantics documented for any write
+      operation, including bulk execution (conventions/sedai-conventions.yml).
+  - id: pagination
+    name: Pagination
+    conforms: true
+    style: page-number
+    evidence: >-
+      pageSize + 1-based start page, numPages in the response; SDK exposes a
+      PageIterator. Documented in REFERENCE-typescript.md#pagination.
+  - id: rfc8594
+    name: RFC 8594 Sunset header
+    conforms: false
+    evidence: No Sunset or Deprecation headers; no deprecation policy published (lifecycle/sedai-lifecycle.yml).
+  - id: graphql
+    name: GraphQL
+    conforms: partial
+    evidence: >-
+      The shipped SDK builds GraphQL queries against /api/graphql on the tenant
+      host. The endpoint is not publicly documented, the schema is not
+      published, and it cannot be introspected without a tenant and a token.
+  - id: openapi
+    name: OpenAPI
+    conforms: false
+    evidence: >-
+      Probed /openapi.json, /openapi.yaml, /swagger.json on sedai.io and
+      docs.sedai.io — all 404. No spec on the docs site, the GitHub org, or in
+      either SDK package.
+compliance:
+  - name: SOC 2 Type 2
+    status: certified
+    evidence: >-
+      "SOC 2 Type 2 Certified" badge on https://sedai.io/ (HTTP 200,
+      2026-08-29).
+    report_access: Not published; no trust center or public report request flow found.
+  - name: Encryption at rest
+    status: documented
+    evidence: >-
+      AES for sensitive data; AWS Secrets Manager for credentials and customer
+      profiles
+      (https://docs.sedai.io/get-started/onboarding/readme/safety-and-security).
+  - name: Encryption in transit
+    status: documented
+    evidence: HTTPS for API and UI interfaces (same page).
+  - name: Message bus integrity
+    status: documented
+    evidence: HMAC on both producers and consumers (same page).
+  - name: Tenant isolation
+    status: documented
+    evidence: >-
+      "Each Sedai SaaS instance for customers operates within its dedicated
+      tenant... each tenant will host its own microservices, secret stores,
+      relational databases, time series data, and machine learning models."
+  - name: Audit logging
+    status: documented
+    evidence: >-
+      "All actions and their respective changes are audited and recorded to meet
+      compliance requirements." Exposed via settings history
+      (getResourceSettingsHistory / getGroupSettingsHistory /
+      getAccountSettingsHistory) and the Activity Hub.
+gaps:
+  - No ISO 27001, PCI DSS, HIPAA or FedRAMP certification claimed for Sedai itself (only for AWS Secrets Manager, which is a supplier control, not Sedai's).
+  - No trust center, no public compliance portal, no published penetration test summary.
+  - No vulnerability disclosure policy and no security.txt on any Sedai host.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,84 @@
+generated: '2026-08-29'
+method: searched
+source: >-
+  https://docs.sedai.io/get-started/platform/integrations/notifications and
+  https://docs.sedai.io/get-started/onboarding/readme/ci-cd (the "Notification"
+  option for propagating Sedai's changes into a GitOps workflow). Full docs
+  corpus checked via https://docs.sedai.io/llms-full.txt.
+description: >-
+  Sedai has an OUTBOUND event surface but ships no AsyncAPI. Notifications are
+  configured in the console (Settings -> Integrations -> Add Integration ->
+  Notifications) and delivered to six named providers plus custom webhooks and
+  email. Sedai publishes no payload schema, no event-type catalogue, no
+  signature/verification scheme and no delivery/retry semantics for the custom
+  webhook — so a consumer cannot write a handler from the documentation alone.
+  Nothing is fabricated here: only what Sedai states is recorded.
+asyncapi_spec: null
+asyncapi_probed:
+  - url: https://sedai.io/asyncapi.yaml
+    status: 404
+  - url: https://docs.sedai.io/asyncapi.yaml
+    status: 404
+direction: outbound only
+inbound_webhooks: false
+transport:
+  - type: webhook
+    name: Custom webhook
+    description: >-
+      "Sedai also supports custom webhooks and email." The generic HTTP target
+      for Sedai alerts. Payload documented only as "JSON or YAML format that
+      details changes made or recommended by Sedai".
+    payload_schema: null
+    signature_verification: null
+    retry_policy: null
+    docs: https://docs.sedai.io/get-started/platform/integrations/notifications
+  - type: email
+    name: Email
+    description: Notifications to a target address or group email ID.
+integrations:
+  - name: Asana
+    kind: ticketing
+    credentials: [workspace, project, personal access token]
+    caveat: Issues are not updated after they are generated.
+  - name: Datadog
+    kind: monitoring
+    credentials: [API key]
+  - name: Jira
+    kind: ticketing
+    credentials: [project key, Jira URL, user email, API token]
+  - name: Microsoft Teams
+    kind: chat
+    credentials: [incoming webhook URL]
+  - name: PagerDuty
+    kind: incident
+  - name: Slack
+    kind: chat
+    credentials: [incoming webhook URL]
+    note: Delivered via Slack incoming webhooks; Sedai states a Slack App is "coming soon".
+subscription_model:
+  configured_in: Console — Settings -> Notifications
+  granularity: >-
+    Per notification category, per alert. Integrations can be scoped to all
+    connected resources or mapped to specific resource groups; multiple
+    integrations per provider are supported and named by nickname.
+event_categories:
+  note: >-
+    Sedai's docs describe alert CATEGORIES selected in the console UI but do not
+    enumerate the event types or their names in any published document. No
+    catalogue is asserted here — reading it requires a tenant.
+polling_alternative:
+  description: >-
+    Sedai documents polling as the alternative to notification for GitOps
+    workflows — query the "what it should be" (WISB) configuration over REST and
+    push it to Argo CD or a Git source of truth.
+  endpoint: /api/site/sedaisync/proposedconfig
+  docs: https://docs.sedai.io/get-started/onboarding/readme/ci-cd
+gaps:
+  - No AsyncAPI document.
+  - No published payload schema or example for the custom webhook.
+  - No webhook signature, timestamp or replay-protection scheme documented.
+  - No delivery guarantee, retry policy or dead-letter behaviour documented.
+  - No enumerated event-type catalogue.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

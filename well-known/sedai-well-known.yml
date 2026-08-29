@@ -1,0 +1,93 @@
+generated: '2026-08-29'
+method: probed
+source: >-
+  Live probes of every Sedai host named in apis.yml and in Sedai's own SDK
+  documentation: sedai.io (website), docs.sedai.io (GitBook docs),
+  app.sedai.io (the console / signup host). The API itself is served per-tenant
+  at https://{tenant}.sedai.app, which cannot be probed anonymously without a
+  tenant name, so it is recorded here as untested rather than as a miss.
+description: >-
+  Every /.well-known/ path returned 404 on sedai.io and docs.sedai.io.
+  app.sedai.io answers HTTP 200 with a text/html single-page-app shell for
+  /.well-known/openid-configuration, /oauth-authorization-server,
+  /oauth-protected-resource and /api-catalog — that is the SPA catch-all, not a
+  document, so those are recorded as present-but-not-a-real-document and NOT
+  credited. No /.well-known/ pointer is emitted in apis.yml, because nothing on
+  any Sedai host served a real discovery document.
+hosts:
+  - host: https://sedai.io
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://docs.sedai.io
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://app.sedai.io
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 200
+        type: text/html
+        real_document: false
+        note: SPA catch-all HTML shell, not an OpenID discovery document — treated as a miss.
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        type: text/html
+        real_document: false
+        note: SPA catch-all HTML shell — treated as a miss.
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        type: text/html
+        real_document: false
+        note: SPA catch-all HTML shell — treated as a miss.
+      - path: /.well-known/api-catalog
+        status: 200
+        type: text/html
+        real_document: false
+        note: SPA catch-all HTML shell — treated as a miss.
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+untested_hosts:
+  - host: https://{tenant}.sedai.app
+    reason: >-
+      Sedai's API is served from a per-customer tenant subdomain
+      (SEDAI_BASE_URL, e.g. https://your-org.sedai.app). There is no anonymous
+      tenant to probe, so no /.well-known/ claim is made about the API host in
+      either direction.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

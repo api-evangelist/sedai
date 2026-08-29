@@ -1,0 +1,192 @@
+generated: '2026-08-29'
+method: searched
+source: >-
+  https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/REFERENCE-typescript.md
+  — Sedai's own first-party SDK reference, which is the only public description
+  of the platform API's cross-cutting behaviour. Supplemented by
+  https://docs.sedai.io/get-started/onboarding/readme/ci-cd (the "Sedai API for
+  resource WISB" section, which is where the docs site acknowledges a REST API
+  exists) and
+  https://docs.sedai.io/get-started/onboarding/readme/safety-and-security
+  (verification and rollback).
+description: >-
+  Cross-cutting runtime semantics for the Sedai platform API. Sedai publishes
+  no OpenAPI, no API reference on its docs site, and no per-endpoint
+  documentation; everything below is read from the published SDK reference and
+  the compiled SDK's request paths. Consumers are expected to call the API
+  through the SDK rather than directly, so several conventions a REST consumer
+  would need — the auth header name, the response envelope, rate-limit headers
+  — are simply not stated anywhere public.
+base_url: https://{tenant}.sedai.app
+api_style: >-
+  REST over HTTPS under /api/*, with a GraphQL endpoint at /api/graphql used
+  internally by the SDK's query builder. JSON request and response bodies.
+authentication:
+  scheme: Console-minted JWT API token (SEDAI_API_TOKEN)
+  roles: [user (read), admin (write)]
+  detail: authentication/sedai-authentication.yml
+idempotency:
+  supported: false
+  mechanism: null
+  note: >-
+    Sedai documents no idempotency key, no request-deduplication header, and no
+    replay semantics anywhere in the SDK reference or the docs site. Write
+    operations (createAccount, bulkExecuteWithCopilot, updateResourceSettings)
+    carry no client-supplied key, so a retried submission cannot be
+    deduplicated by the caller. The SDK's own automatic retry on 429/503/504
+    therefore replays writes without an idempotency guarantee.
+pagination:
+  style: page-number
+  request_params:
+    pageSize: Records per page.
+    start: >-
+      1-BASED PAGE NUMBER, not a record offset. With pageSize 50, start 50 means
+      page 50 (record 2,450). Passing a record offset returns the wrong slice
+      silently, with no error — Sedai corrected its own documentation for this
+      in SDK 1.2.3 (2026-08-28).
+  response_fields:
+    numPages: A count of pages, not records.
+  sdk_abstraction: >-
+    List endpoints return a PageIterator<T>; the SDK auto-paginates under
+    `for await`. Some endpoints (getResourceSettingsHistory,
+    getGroupSettingsHistory, getAccountSettingsHistory, getHealthInfo) return a
+    plain array instead and must be awaited, not iterated.
+  docs: https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/REFERENCE-typescript.md#pagination
+field_expansion:
+  supported: partial
+  mechanism: >-
+    Per-endpoint boolean options rather than a general expansion grammar —
+    includeOperationDetails on getRecommendations, includeTags on
+    getOpportunitiesForResources, includeFactors on getOperationCompatibility,
+    includeWorkloadOptimization on getClusterOpportunities,
+    includeItemsWhenComplete on getExecutionStatus.
+  note: No sparse-fieldset or generic expand[] parameter.
+identifiers:
+  resource_id:
+    opaque: true
+    shape: >-
+      Slash-delimited composite path embedding account, region, kind, uuid and
+      resource name — e.g.
+      tjab5onf/eastus2/Instance/23b2be14-6af4-47c9-937e-ccd5dfbcb307/US6WVDCP200253.
+    warning: >-
+      Sedai explicitly states the shape is NOT part of any published contract
+      and must not be validated with a client-side pattern. SDK 1.2.4
+      (2026-08-28) fixed documentation that had described it as an opaque
+      res_abc123 token; any validator written from that would reject every real
+      id.
+  cloud_provider_id:
+    description: The native cloud identifier (EC2 instance id, Azure resource path, EBS volume id).
+    resolution: getCloudProviderIds(ids) returns a map keyed by Sedai resource id.
+    gotcha: >-
+      Unresolved ids are ECHOED BACK mapped to themselves rather than omitted,
+      so a missing-key check never detects a failed lookup. Compare value
+      against key instead. Kubernetes resources legitimately map to themselves.
+metadata:
+  supported: read-only
+  mechanism: >-
+    Cloud provider tags are surfaced (getResourceTags, and opportunity rows
+    when includeTags: true) as {key, value} pairs. Sedai does not offer a
+    writable metadata bag of its own.
+request_tracing:
+  request_id_header: null
+  note: >-
+    No request id header is documented. The closest runtime correlator is
+    operationUuid on in-progress executions and the transactionId returned by
+    submitBulkExecutionRequest — both are workflow identifiers, not
+    per-request trace ids, and neither is available for a failed call.
+versioning:
+  scheme: path-embedded, per-endpoint
+  evidence: >-
+    /api/settingsV2/..., /api/ui/recommendations/allrecommendationsv3,
+    /api/cluster/optimization/cost/v2/ appear alongside unversioned /api/site/*
+    and /api/operations/ paths in the shipped SDK. There is no global API
+    version header, no dated version, and no documented version policy.
+  detail: lifecycle/sedai-lifecycle.yml
+error_envelope:
+  media_type: application/json
+  rfc9457: false
+  shape: >-
+    Not published. The SDK raises APIException carrying the HTTP status and an
+    axios message (e.g. "GET /api/site/accounts failed: Request failed with
+    status code 401"); the body's own structure is not documented.
+  detail: errors/sedai-problem-types.yml
+rate_limit_signaling:
+  headers: null
+  status_on_exhaustion: 429
+  client_behaviour: >-
+    The SDK retries 429, 503 and 504 up to 3 times with exponential backoff
+    (configurable via the `retries` option). No Retry-After, X-RateLimit-* or
+    RateLimit-* header is documented, and no numeric limit is published.
+  detail: rate-limits/sedai-rate-limits.yml
+dry_run_mode:
+  supported: true
+  mechanism: >-
+    Not a request flag but a resource-level operating mode. configMode
+    DATA_PILOT makes Sedai analyse and report without applying any change;
+    CO_PILOT proposes a change and waits for explicit approval; AUTO applies
+    autonomously. getRecommendedResourceState(resourceId) returns the
+    configuration Sedai WOULD apply without applying it — the closest thing to
+    a preview call.
+  docs: https://docs.sedai.io/get-started/platform/settings/features/optimization
+reversibility:
+  grade: documented
+  applies: true
+  note: >-
+    Sedai's write surface changes live cloud infrastructure, so reversibility
+    matters more here than in most APIs. Sedai documents real reversal paths,
+    including an automatic rollback, but states NO time window for any of them —
+    so this grades `documented`, not `verified`. Do not infer a window: none is
+    published.
+  operations:
+    - action: Reject a pending recommendation before it executes
+      operation: rejectExecution(resourceId)
+      rest: /api/virtualMachines/optimization/manualexecution/approve
+      window: >-
+        Bounded in practice by recommendation expiry, not by a reversal window —
+        Datapilot recommendations expire automatically if not approved within
+        4 hours of generation
+        (https://docs.sedai.io/get-started/platform/settings/features/availability).
+      scope: VM resources only.
+      reverses: An approval that has not yet been given. Not a post-execution undo.
+    - action: Automatic rollback after execution
+      operation: null
+      window: null
+      description: >-
+        "Every action is verified for accuracy and effectiveness against
+        predefined goals. Changes will be reverted if verification and efficacy
+        criteria are not met." Sedai-initiated, not caller-initiated; no API
+        exists to trigger it and no time bound is stated.
+      docs: https://docs.sedai.io/get-started/onboarding/readme/safety-and-security
+    - action: Stop future autonomous changes
+      operation: updateResourceSettings / updateGroupSettings / updateAccountSettings with configMode DATA_PILOT, or enableOrDisableGroup(id, false)
+      window: null
+      description: >-
+        Disables further action but does not undo changes already applied.
+      caution: >-
+        Sedai's own guidance is get-then-modify — read settings, mutate the one
+        field, write the whole object back — because a partial update clobbers
+        existing settings. There is no documented way to reverse a clobbering
+        write other than reapplying the previous values, and settings HISTORY
+        (getResourceSettingsHistory) is the only record of what they were.
+    - action: Restore a prior configuration from source of truth
+      operation: null
+      window: null
+      description: >-
+        Sedai Sync resets a resource to Sedai's ideal values after a release;
+        the inverse — resetting to your own values — is done outside Sedai, in
+        your IaC/GitOps pipeline. Sedai exposes its proposed state at
+        /api/site/sedaisync/proposedconfig for that purpose.
+      docs: https://docs.sedai.io/get-started/onboarding/readme/ci-cd
+  gaps:
+    - No stated reversal window for any operation.
+    - No caller-triggered rollback endpoint for an already-executed optimization.
+    - Bulk execution (bulkExecuteWithCopilot, submitBulkExecutionRequest) has no batch-level cancel or undo.
+cross_links:
+  errors: errors/sedai-problem-types.yml
+  lifecycle: lifecycle/sedai-lifecycle.yml
+  authentication: authentication/sedai-authentication.yml
+  rate_limits: rate-limits/sedai-rate-limits.yml
+  packages: packages/sedai-packages.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

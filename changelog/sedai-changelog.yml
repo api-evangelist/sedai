@@ -1,0 +1,111 @@
+generated: '2026-08-29'
+method: searched
+source: >-
+  https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/CHANGELOG-typescript.md
+  and https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/CHANGELOG.md
+description: >-
+  Sedai publishes no product or API changelog (sedai.io/changelog and
+  docs.sedai.io/changelog both 404). It does publish two dated,
+  Keep-a-Changelog-style SDK changelogs, and those are unusually candid — several
+  entries document backend behaviour that was previously described WRONGLY,
+  which is the only public record of API semantics changing. Recent window only;
+  the repo is the source of truth.
+docs: https://github.com/SedaiEngineering/sedai-sdk-releases
+scheme: semver, per SDK
+streams:
+  - id: typescript
+    name: Sedai SDK for JavaScript / TypeScript
+    current: 1.2.4
+    current_date: '2026-08-28'
+    changelog: https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/CHANGELOG-typescript.md
+  - id: python
+    name: Sedai SDK for Python
+    current: 1.3.20
+    current_date: '2026-07-07'
+    changelog: https://github.com/SedaiEngineering/sedai-sdk-releases/blob/main/CHANGELOG.md
+entries:
+  - stream: typescript
+    version: 1.2.4
+    date: '2026-08-28'
+    latest: true
+    breaking: []
+    fixes:
+      - >-
+        Documented that getCloudProviderIds() echoes unresolved ids back mapped
+        to themselves rather than omitting them — existing backend behaviour,
+        documentation only.
+      - >-
+        Corrected resourceId: it is a slash-delimited composite path, not an
+        opaque res_abc123 token. Any validator written from the old documented
+        shape rejected every real id.
+    changes:
+      - Source maps no longer published; tarball 83 KB -> 56 KB.
+    additions:
+      - REFERENCE-typescript.md published in the releases repo (previously only inside the package).
+      - A 401 troubleshooting entry covering reading the JWT exp claim.
+  - stream: typescript
+    version: 1.2.3
+    date: '2026-08-28'
+    fixes:
+      - >-
+        PaginationConfig.start is a 1-based PAGE NUMBER, not a record offset —
+        the docs previously said the opposite, and following them silently
+        returned data from the wrong part of the result set.
+      - examples/typescript is now a self-contained npm project; the clone-and-run flow works.
+  - stream: typescript
+    version: 1.2.2
+    date: '2026-08-28'
+    changes:
+      - Examples removed from the npm package; they now live only in the releases repo.
+      - Example environment variables renamed to a SEDAI_ prefix.
+    fixes:
+      - Setup instructions pin typescript@5 (ts-node is incompatible with TypeScript 7).
+  - stream: python
+    version: 1.3.20
+    date: '2026-07-07'
+    latest: true
+    additions:
+      - PVC optimization setting (KubeAppSettings.optimizePvcDeployments).
+  - stream: python
+    version: 1.3.19
+    date: '2026-05-28'
+    additions:
+      - Max resource limits for Kubernetes recommendations.
+  - stream: python
+    version: 1.3.18
+    date: '2026-05-08'
+    additions:
+      - GCP account update.
+  - stream: python
+    version: 1.3.17
+    date: '2026-04-14'
+    additions:
+      - Azure account update.
+  - stream: python
+    version: 1.3.15
+    date: '2026-04-02'
+    fixes:
+      - Group priorities fixes.
+  - stream: python
+    version: 1.3.14
+    date: '2026-03-16'
+    additions:
+      - Manage group priorities.
+  - stream: python
+    version: 1.3.13
+    date: '2026-03-09'
+    additions:
+      - Manage prohibited namespaces.
+      - Smart Agent Health API.
+related:
+  - name: Terraform provider releases
+    url: https://github.com/SedaiEngineering/terraform-provider-sedai/releases
+    latest: v2.0.0
+    date: '2026-07-03'
+  - name: Sedai Smart Agent Helm chart index
+    url: https://sedaiengineering.github.io/helm-charts/index.yaml
+    latest: 1.4.75
+    date: '2026-08-27'
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
