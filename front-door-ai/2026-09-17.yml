@@ -1,0 +1,29 @@
+# Front Door AI Index — sedai — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: sedai
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: sedai.io
+  final_host: sedai.io
+  ownership: own
+  owner: sedai
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 15
+  host_score: 15
+  density: 19.08
+  words: 786
+  tiers:
+    agentic: 6
+    core: 9
+    model: 0
+  ambiguous: 6
+  top_terms:
+    AI: 9
+    agent: 6
+    AI agent: 3
+    agentic: 2
+    copilot: 1
