@@ -1,4 +1,4 @@
-# Sedai (sedai)
+# Sedai
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,51 +64,124 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Sedai is an AI-driven autonomous cloud optimization platform using reinforcement learning to continuously adjust resources in real-time for cost reduction and performance improvement.
+Sedai is an autonomous cloud and AI optimization platform. It continuously analyzes application behavior — traffic, resource utilization, latency and errors — and then adjusts cloud configuration in real time to cut cost, improve performance and protect availability, across Kubernetes, VMs, serverless, storage, databases, GPUs and AI agent workloads on AWS, Azure and GCP. It operates in three modes: Datapilot (observe only), Copilot (human approves each change) and Autopilot (fully autonomous). Sedai exposes a tenant-scoped platform API at https://{tenant}.sedai.app reached through first-party Python and TypeScript SDKs, a Terraform provider and a Helm chart for its in-cluster Smart Agent, but publishes no OpenAPI and no public API reference on its documentation site.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/sedai/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/sedai/refs/heads/main/apis.yml)
+**Areas:** Cloud Optimization · FinOps · Kubernetes · Cloud Cost Management · Autonomous Operations · Observability · Artificial Intelligence · DevOps
 
-## Scope
+## Sedai on APIs.io
 
-- **Type:** Index
+Everything profiled for Sedai is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/sedai/](https://apis.io/providers/sedai/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (1)
 
-- Cloud Optimization
-- FinOps
+- [Sedai](https://apis.io/apis/sedai/sedai/) — Sedai is an AI-driven autonomous cloud optimization platform using reinforcement learning to continuously adjust resources in real-time.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-27
-- **Modified:** 2026-03-27
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### Sedai
+Event-driven and webhook contracts.
 
-Sedai is an AI-driven autonomous cloud optimization platform using reinforcement learning to continuously adjust resources in real-time.
+- [Sedai Webhooks](https://apis.io/asyncapis/sedai/sedai-webhooks/)
 
-- **Human URL:** [https://sedai.io/](https://sedai.io/)
+#### MCP servers (1)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Cloud Optimization
-- FinOps
+- [sedai-mcp.yml](https://apis.io/servers/sedai/sedai-mcp-yml/)
 
-#### Properties
+#### Security (2)
 
-- [Documentation](https://docs.sedai.io/)
-- [Getting Started](https://docs.sedai.io/)
+Authentication, trust centre, and vulnerability disclosure.
 
-## Common Properties
+- [Sedai Authentication](https://apis.io/security/sedai/sedai-authentication/)
+- [Sedai Domain Security](https://apis.io/security/sedai/sedai-domain-security/)
 
-- [LinkedIn](https://www.linkedin.com/company/sedai)
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Sedai Plans Pricing](https://apis.io/plans/sedai/sedai-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Sedai Rate Limits](https://apis.io/rate-limits/sedai/sedai-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Sedai Finops](https://apis.io/finops/sedai/sedai-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://sedai.io/)
 - [Documentation](https://docs.sedai.io/)
-- [Integrations](https://sedai.io/integrations)
-- [L L Ms Txt](https://sedai.io/llms.txt)
+- [Pricing](https://sedai.io/pricing)
+- [Sign up](https://app.sedai.io/signup)
+- [Support](https://sedai.io/contact)
+- [Blog](https://sedai.io/blog)
+- [Terms of service](https://sedai.io/terms-of-use)
+- [Privacy policy](https://sedai.io/privacy-policy)
+- [GitHub](https://github.com/SedaiEngineering)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 43.4** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 39.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 26.3 |
+| Developer ergonomics | 54.8 |
+| Access clarity | 39.5 |
+
+**Agent readiness 25.2** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 27.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/sedai/](https://apis.io/providers/sedai/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Sedai: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/sedai/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
